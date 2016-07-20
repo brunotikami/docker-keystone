@@ -42,14 +42,22 @@ export OS_TOKEN OS_URL OS_IDENTITY_API_VERSION
 
 # Initialize account
 openstack service create  --name keystone identity
-openstack endpoint create --region RegionOne identity public http://${HOSTNAME}:5000/v3
-openstack endpoint create --region RegionOne identity internal http://${HOSTNAME}:5000/v3
-openstack endpoint create --region RegionOne identity admin http://${HOSTNAME}:5000/v3
 openstack domain create --description "Default Domain" default
+openstack endpoint create --region One identity public http://keystone:5000/v3
+openstack endpoint create --region One identity internal http://${HOSTNAME}:5000/v3
+openstack endpoint create --region One identity admin http://keystone:35357/v3
+
+# Admin
 openstack project create --domain default  --description "Admin Project" admin
 openstack user create --domain default --password $ADMIN_PASSWORD admin
 openstack role create admin
 openstack role add --project admin --user admin admin
+
+# Demo
+openstack project create --domain default  --description "Demo Project" demo
+openstack user create --domain default --password demo demo
+openstack role create user
+openstack role add --project demo --user demo user
 
 unset OS_TOKEN OS_URL
 

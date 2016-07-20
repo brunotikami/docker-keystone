@@ -1,5 +1,5 @@
 FROM python:2.7
-MAINTAINER krystism "krystism@gmail.com"
+MAINTAINER brunotikami "bruno@tikami.com.br"
 
 ENV VERSION=10.0.0.0b1
 
