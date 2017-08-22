@@ -1,12 +1,12 @@
 FROM python:2.7
 MAINTAINER brunotikami "bruno@tikami.com.br"
 
-ENV VERSION=10.0.0.0b1
-
 RUN set -x \
     && apt-get -y update \
     && apt-get install -y libffi-dev python-dev libssl-dev mysql-client python-mysqldb \
     && apt-get -y clean
+
+ENV VERSION=11.0.3
 
 RUN curl -fSL https://github.com/openstack/keystone/archive/${VERSION}.tar.gz -o keystone-${VERSION}.tar.gz \
     && tar xvf keystone-${VERSION}.tar.gz \
@@ -21,6 +21,7 @@ RUN curl -fSL https://github.com/openstack/keystone/archive/${VERSION}.tar.gz -o
 
 COPY keystone.conf /etc/keystone/keystone.conf
 COPY keystone.sql /root/keystone.sql
+COPY tapi_hmac.py /usr/local/lib/python2.7/site-packages/keystone/auth/plugins/
 
 # Add bootstrap script and make it executable
 COPY bootstrap.sh /etc/bootstrap.sh
